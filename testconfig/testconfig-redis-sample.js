@@ -44,10 +44,10 @@ function checkPassword(username, password, cb) {
   cb(null, username === VALID_USER_CREDS.username && password === VALID_USER_CREDS.password);
 }
 
-var Management = require('volos-management-redis');
+var Management = require('../management/redis');
 var management = Management.create(config);
 
-var OAuth = require('volos-oauth-redis');
+var OAuth = require('../oauth/redis');
 var oauth = OAuth.create(config);
 
 var CreateFixtures = require('./createfixtures');

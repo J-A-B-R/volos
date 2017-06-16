@@ -1,3 +1,17 @@
+This fork
+=========
+
+This fork is aimed to update the modules **volos-*xxx*-redis** with these goals:
+
+- Replacing the *redis* package dependency in favor of [IoRedis](https://github.com/luin/ioredis).
+- Allowing to continue using the `auth_pass` property in the *options* object along with the property `password` expected by [IoRedis](https://github.com/luin/ioredis).
+- Allowing to pass an instance of [IoRedis](https://github.com/luin/ioredis) instead of an *options* object.
+- Enabling the key prefixes to be configurable (through `xxxKeyPrefix` property in the *config* object).
+- Updating other dependencies where it is reasonable to do so.
+- Facilitating local testing and deployment avoiding having to publish to a NPM registry, but referencing directly the repository (see [this gist](https://gist.github.com/J-A-B-R/ea011c5e389dc155ce356487dd8004c9)).
+
+***
+
 Apigee Volos
 ============
 
@@ -27,7 +41,7 @@ Apigee Proxy
 ------------
 All modules are capable of using Apigee Edge as a commercially supported, hardened and distributed backend
 implementation (though this is not required). If you intend to use the Apigee Edge implementations, you'll need to
-install an Apigee proxy into your Application on the Apigee Edge server. 
+install an Apigee proxy into your Application on the Apigee Edge server.
 See [Apigee proxy installation](https://github.com/apigee-127/apigee-remote-proxy)
 
 Core Modules
@@ -99,7 +113,7 @@ Test scripts are written using "mocha." Install mocha if you haven't already lik
 To test Apigee providers:
 
 1. Install the "proxy" module on an Apigee application. See the instructions [here](https://github.com/apigee-127/apigee-remote-proxy).
-2. In the "testconfig" directory, copy "testconfig-apigee-sample.js" to "testconfig-apigee.js" and edit the values. 
+2. In the "testconfig" directory, copy "testconfig-apigee-sample.js" to "testconfig-apigee.js" and edit the values.
    You will need to specify the location of your proxy as well as the key and secret for the application.
 3. Run `mocha` in each apigee/test directory you wish you test.
 
@@ -113,9 +127,9 @@ To test Redis providers:
 Support
 =======
 
-The support model for Volos is 'community support' for non-paying Apigee customers.  This means that you can use 
-publicly-available resources to solicit assistance from the Volos developer community as well as employees of Apigee 
-that help support Volos.  If you are a paying Apigee customer we can offer support through the stated channels in your 
+The support model for Volos is 'community support' for non-paying Apigee customers.  This means that you can use
+publicly-available resources to solicit assistance from the Volos developer community as well as employees of Apigee
+that help support Volos.  If you are a paying Apigee customer we can offer support through the stated channels in your
 support agreement.
 
 Having Problems?

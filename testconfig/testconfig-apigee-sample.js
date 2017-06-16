@@ -43,13 +43,13 @@ function checkPassword(username, password, cb) {
   cb(null, username === VALID_USER_CREDS.username && password === VALID_USER_CREDS.password);
 }
 
-var Management = require('volos-management-apigee');
+var Management = require('../management/apigee');
 var management = Management.create(config);
 
 var CreateFixtures = require('./createfixtures');
 var fixtureCreator = new CreateFixtures(management);
 
-var OAuth = require('volos-oauth-apigee');
+var OAuth = require('../oauth/apigee');
 var oauth = OAuth.create(config);
 
 module.exports = {
