@@ -73,7 +73,7 @@ var CRYPTO_BYTES = 256 / 8;
 var debug = require('debug')('apigee');
 var crypto = require('crypto');
 var uuid = require('uuid');
-var redis = require("redis");
+var IoRedis = require("ioredis");
 var _ = require('underscore');
 var Common = require('volos-management-common');
 var async = require('async');
@@ -84,18 +84,27 @@ var create = function(config) {
 };
 module.exports.create = create;
 
+var defaultRedisOptions = {
+  port: 6379,
+  host: '127.0.0.1',
+  db: 0,
+};
+
 function RedisManagementSpi(config) {
   config = config || {};
-  var port = config.port || 6379;
-  var host = config.host || '127.0.0.1';
-  var db = config.db || 0;
-  var ropts = _.extend({}, config.options) || {};
-  this.hashAlgo = config.hashAlgo || 'sha256';
-  this.cypherAlgo = config.cypherAlgo || 'aes192';
+
   if (!config.encryptionKey) { throw new Error('you must provide an encryptionKey in config'); }
   this.encryptionKey = config.encryptionKey;
-  this.client = redis.createClient(port, host, ropts);
-  this.client.select(db);
+  this.hashAlgo = config.hashAlgo || 'sha256';
+  this.cypherAlgo = config.cypherAlgo || 'aes192';
+
+  if (config.options instanceof IoRedis) {
+    this.client = config.options;
+  } else {
+    var rConfig = { port: config.port, host: config.host, db: config.db, password: config.options && config.options.auth_pass }
+    var rOpts = _.extend({}, defaultRedisOptions, rConfig, config.options);
+    this.client = new IoRedis(rOpts);
+  }
 }
 
 // Operations on developers
