@@ -8,6 +8,10 @@
   "keywords": [
     "redis"
   ],
+  "scripts": {
+    "test": "npm i; mocha test/mgmttest.js",
+    "test-local": "rm -rf node_modules/volos-management-common > /dev/null; mocha test/mgmttest.js"
+  },
   "dependencies": {
     "redis": "0.10.x",
     "node-uuid": "1.4.x",
