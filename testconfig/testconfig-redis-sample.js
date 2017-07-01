@@ -37,6 +37,7 @@ var config = {
 
   validGrantTypes: [ 'client_credentials', 'authorization_code', 'implicit_grant', 'password' ],
   tokenLifetime: 1000, // expiration tests will wait this long
+  refreshTokenLifetime: 2000, // expiration tests will wait this long (less than 2000ms makes the tests to fail)
   passwordCheck: checkPassword
 };
 
