@@ -26,7 +26,7 @@
 var _ = require('underscore');
 var assert = require('assert');
 var Quota = require('volos-quota-common');
-var redis = require("redis");
+var IoRedis = require("ioredis");
 var KEY_PREFIX = "volos:quota:";
 
 /*
@@ -44,6 +44,11 @@ var create = function(options) {
 };
 module.exports.create = create;
 
+var defaultRedisOptions = {
+  port: 6379,
+  host: '127.0.0.1',
+  db: 0,
+};
 
 function RedisQuotaSpi(options) {
   this.options = options;
@@ -54,12 +59,16 @@ function RedisQuotaSpi(options) {
     assert.equal(typeof options.startTime, 'number');
   }
 
-  var host = options.host || '127.0.0.1';
-  var port = options.port || 6379;
-  var db = options.db || 0;
-  var ropts = _.extend({}, options.options) || {};
-  this.client = redis.createClient(port, host, ropts);
-  this.client.select(db);
+  if (options instanceof IoRedis) {
+    this.client = options;
+  } else if (!options) {
+    this.client = new IoRedis(defaultRedisOptions)
+  } else {
+    var pass = options.password || options.auth_pass || (options.options && options.options.auth_pass)
+    var passOpt = (pass) ? { password: pass } : {};
+    var ropts = _.extend(passOpt, defaultRedisOptions, options);
+    this.client = new IoRedis(ropts);
+  }
 }
 
 RedisQuotaSpi.prototype.destroy = function() {
