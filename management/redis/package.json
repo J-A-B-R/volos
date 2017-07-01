@@ -1,6 +1,6 @@
 {
   "name": "volos-management-redis",
-  "version": "0.9.11",
+  "version": "0.10.0",
   "license": "MIT",
   "main": "lib/redismgmt.js",
   "description": "Redis-backed management in the Volos system.",
@@ -13,7 +13,7 @@
     "test-local": "rm -rf node_modules/volos-management-common > /dev/null; mocha test/mgmttest.js"
   },
   "dependencies": {
-    "redis": "0.10.x",
+    "ioredis": "3.1.x",
     "uuid": "3.0.x",
     "volos-management-common": "0.9.x",
     "debug": "^2.2.0",
