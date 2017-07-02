@@ -62,7 +62,7 @@ var AUTH_TTL = 60 * 5; // 5 minutes
 
 var querystring = require('querystring');
 var crypto = require('crypto');
-var redis = require("redis");
+var IoRedis = require("ioredis");
 var OAuthCommon = require('volos-oauth-common');
 var Management = require('volos-management-redis');
 var Url = require('url');
@@ -82,15 +82,25 @@ var create = function(config) {
 };
 module.exports.create = create;
 
+var defaultRedisOptions = {
+  port: 6379,
+  host: '127.0.0.1',
+  db: 0,
+};
+
 var RedisRuntimeSpi = function(mgmt, config) {
   config = config || {};
-  var host = config.host || '127.0.0.1';
-  var port = config.port || 6379;
-  var db = config.db || 0;
-  var ropts = _.extend({}, config.options) || {};
+
   this.hashAlgo = config.hashAlgo || 'sha256';
-  this.client = redis.createClient(port, host, ropts);
-  this.client.select(db);
+
+  if (config.options instanceof IoRedis) {
+    this.client = config.options;
+  } else {
+    var rConfig = { port: config.port, host: config.host, db: config.db, password: config.options && config.options.auth_pass }
+    var rOpts = _.extend({}, defaultRedisOptions, rConfig, config.options);
+    this.client = new IoRedis(rOpts);
+  }
+
   this.mgmt = mgmt;
 };
 
