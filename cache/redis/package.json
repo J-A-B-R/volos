@@ -9,10 +9,6 @@
     "cache",
     "redis"
   ],
-  "scripts": {
-    "test": "npm i; mocha test/redistest.js",
-    "test-local": "rm -rf node_modules/volos-cache-common > /dev/null; mocha test/redistest.js"
-  },
   "dependencies": {
     "volos-cache-common": "0.10.x",
     "debug": "^2.2.0",

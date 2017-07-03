@@ -18,10 +18,6 @@
     "debug": "^2.2.0",
     "underscore": "1.8.x"
   },
-  "scripts": {
-    "test": "npm i; mocha test/oauthtest.js",
-    "test-local": "rm -rf node_modules/volos-oauth-common node_modules/volos-management-redis > /dev/null; mocha test/oauthtest.js"
-  },
   "devDependencies": {
     "supertest": "^1.2.0"
   },
