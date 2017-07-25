@@ -41,7 +41,7 @@
  */
 
 var Common = require('volos-cache-common');
-var redis = require('redis');
+var IoRedis = require('ioredis');
 var _ = require('underscore');
 
 var KEY_PREFIX = 'volos:cache';
@@ -51,18 +51,28 @@ function create(name, options) {
 }
 exports.create = create;
 
+var defaultRedisOptions = {
+  port: 6379,
+  host: '127.0.0.1',
+  db: 0,
+};
+
 function Cache(name, options) {
   if (!(this instanceof Cache)) {
     throw new Error('Do not run directly.');
   }
 
-  var host = options.host || '127.0.0.1';
-  var port = options.port || 6379;
-  var db = options.db || 0;
-  var ropts = _.extend({}, options.options) || {};
-  ropts.return_buffers = true;
-  this.client = redis.createClient(port, host, ropts);
-  this.client.select(db);
+  if (options instanceof IoRedis) {
+    this.client = options;
+  } else if (!options) {
+    this.client = new IoRedis(defaultRedisOptions)
+  } else {
+    var pass = options.password || options.auth_pass || (options.options && options.options.auth_pass)
+    var passOpt = (pass) ? { password: pass } : {};
+    var ropts = _.extend(passOpt, defaultRedisOptions, options);
+    this.client = new IoRedis(ropts);
+  }
+
   this.name = name;
 }
 
@@ -70,7 +80,7 @@ function Cache(name, options) {
 // the error, or undefined if there is no error). It is an error to call this with no callback.
 Cache.prototype.get = function(key, callback) {
   var self = this;
-  this.client.get(this._key(key), callback);
+  this.client.getBuffer(this._key(key), callback);
 };
 
 // Set "value" in the cache under "key". "options" is optional and implementation-dependent.

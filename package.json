@@ -1,7 +1,7 @@
 {
-  "name": "Volos",
-  "version": "1.0.0",
-  "comments": "This package.json is here so we can get dependencies installed to run tests. Install mocha and istanbul globally.",
+  "name": "volos",
+  "version": "1.1.0",
+  "comments": "This package.json is here so we can get dependencies installed to run tests. Install mocha and istanbul globally. (JABR): also installs the local projects as dependencies to be able to test them using the local version instead of the npm registry ones (provided they are deleted in the respective 'node_modules'",
   "private": true,
   "dependencies": {
     "apigee-access": ">=1.3.0",
@@ -28,8 +28,20 @@
     "swagger-tools": "^0.8.0",
     "twit": "1.1.x",
     "underscore": "1.6.x",
-    "uuid": "^3.0.0",
-    "yamljs": "0.1.x"
+    "uuid": "^3.0.1",
+    "yamljs": "0.1.x",
+    "volos-cache-common": "file:cache/common",
+    "volos-cache-memory": "file:cache/memory",
+    "volos-cache-redis": "file:cache/redis",
+    "volos-management-common": "file:management/common",
+    "volos-management-redis": "file:management/redis",
+    "volos-oauth-common": "file:oauth/common",
+    "volos-oauth-redis": "file:oauth/redis",
+    "volos-quota-common": "file:quota/common",
+    "volos-quota-memory": "file:quota/memory",
+    "volos-quota-redis": "file:quota/redis",
+    "volos-spikearrest-common": "file:spikearrest/common",
+    "volos-spikearrest-memory": "file:spikearrest/memory"
   },
   "devDependencies": {
     "mocha": "x.x.x"

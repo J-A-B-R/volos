@@ -29,6 +29,8 @@ var argoTest = require('../../test/rfc6749_argo_test');
 var extensionsTest = require('../../test/extensions_test');
 
 describe('Redis', function() {
+  this.timeout(3000)
+  this.slow(4500)
 
   describe('via Argo', function() {
     argoTest.verifyOauth(config);

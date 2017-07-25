@@ -37,6 +37,7 @@ var config = {
 
   validGrantTypes: [ 'client_credentials', 'authorization_code', 'implicit_grant', 'password' ],
   tokenLifetime: 1000, // expiration tests will wait this long
+  refreshTokenLifetime: 2000, // expiration tests will wait this long (less than 2000ms makes the tests to fail)
   passwordCheck: checkPassword
 };
 
@@ -44,10 +45,10 @@ function checkPassword(username, password, cb) {
   cb(null, username === VALID_USER_CREDS.username && password === VALID_USER_CREDS.password);
 }
 
-var Management = require('volos-management-redis');
+var Management = require('../management/redis');
 var management = Management.create(config);
 
-var OAuth = require('volos-oauth-redis');
+var OAuth = require('../oauth/redis');
 var oauth = OAuth.create(config);
 
 var CreateFixtures = require('./createfixtures');
